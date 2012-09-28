@@ -24,6 +24,8 @@ Invoke ". build/envsetup.sh" from your shell to add the following functions to y
 - sgrep:     Greps on all local source files.
 - godir:     Go to the directory containing a file.
 - mka:       Builds using SCHED_BATCH on all processors
+- mkap:     Builds the module(s) using mka and pushes them to the device.
+- cmka:     Cleans and builds using mka.
 - reposync:  Parallel repo sync using ionice and SCHED_BATCH
 - repodiff:  Diff 2 different branches or tags within the same repo
 
@@ -1625,6 +1627,26 @@ function mka() {
             schedtool -B -n 1 -e ionice -n 1 make -j$(cat /proc/cpuinfo | grep "^processor" | wc -l) "$@"
             ;;
     esac
+}
+
+function cmka() {
+    if [ ! -z "$1" ]; then
+        for i in "$@"; do
+            case $i in
+                bacon|otapackage|systemimage)
+                    mka installclean
+                    mka $i
+                    ;;
+                *)
+                    mka clean-$i
+                    mka $i
+                    ;;
+            esac
+        done
+    else
+        mka clean
+        mka
+    fi
 }
 
 function reposync() {
