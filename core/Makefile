@@ -1953,9 +1953,14 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE)
 	   $(if $(OEM_OTA_CONFIG), -o $(OEM_OTA_CONFIG)) \
 	   $(BUILT_TARGET_FILES_PACKAGE) $@
 
+AOSP_TARGET_PACKAGE := $(PRODUCT_OUT)/aosp-7.0_$(shell date -u +%Y%m%d-%H%M)-$(TARGET_BUILD_VARIANT).zip
+
 .PHONY: otapackage bacon
 otapackage: $(INTERNAL_OTA_PACKAGE_TARGET)
 bacon: otapackage
+	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(AOSP_TARGET_PACKAGE)
+	$(hide) $(MD5SUM) $(AOSP_TARGET_PACKAGE) > $(AOSP_TARGET_PACKAGE).md5sum
+	@echo -e ${CL_CYN}"Package Complete: $(AOSP_TARGET_PACKAGE)"${CL_RST}
 
 endif    # build_ota_package
 
