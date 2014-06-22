@@ -595,6 +595,7 @@ function brunch()
 function breakfast()
 {
     target=$1
+    local variant=$2
     SLIM_DEVICES_ONLY="true"
     unset LUNCH_MENU_CHOICES
     add_lunch_combo full-eng
@@ -615,7 +616,10 @@ function breakfast()
             lunch $target
         else
             # This is probably just the SLIM model name
-            lunch slim_$target-userdebug
+            if [ -z "$variant" ]; then
+                variant="userdebug"
+            fi
+            lunch slim_$target-$variant
         fi
     fi
     return $?
