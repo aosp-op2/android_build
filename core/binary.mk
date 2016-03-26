@@ -675,9 +675,10 @@ define copy-proto-files
 $(if $(PRIVATE_PROTOC_OUTPUT), \
    $(if $(call streq,$(PRIVATE_PROTOC_INPUT),$(PRIVATE_PROTOC_OUTPUT)),, \
    $(eval proto_generated_path := $(dir $(subst $(PRIVATE_PROTOC_INPUT),$(PRIVATE_PROTOC_OUTPUT),$@)))
+   $(eval proto_target_files := $(patsubst %.pb$(PRIVATE_PROTOC_SUFFIX), %.pb.*, $@))
    @mkdir -p $(dir $(proto_generated_path))
-   @echo "Protobuf relocation: $@ => $(proto_generated_path)"
-   @cp -f $@ $(proto_generated_path) ),)
+   @echo "Protobuf relocation: $(proto_target_files) => $(proto_generated_path)"
+   @cp -f $(proto_target_files) $(proto_generated_path) ),)
 endef
 
 
@@ -687,6 +688,7 @@ $(proto_generated_cpps): PRIVATE_PROTO_INCLUDES := $(TOP)
 $(proto_generated_cpps): PRIVATE_PROTOC_FLAGS := $(LOCAL_PROTOC_FLAGS) $(my_protoc_flags)
 $(proto_generated_sources): PRIVATE_PROTOC_OUTPUT := $(LOCAL_PROTOC_OUTPUT)
 $(proto_generated_sources): PRIVATE_PROTOC_INPUT := $(LOCAL_PATH)
+$(proto_generated_sources): PRIVATE_PROTOC_SUFFIX := $(my_proto_source_suffix)
 $(proto_generated_cpps): PRIVATE_RENAME_CPP_EXT := $(my_rename_cpp_ext)
 $(proto_generated_cpps): $(proto_gen_dir)/%.pb$(my_proto_source_suffix): %.proto $(my_protoc_deps) $(PROTOC)
 	$(transform-proto-to-cc)
