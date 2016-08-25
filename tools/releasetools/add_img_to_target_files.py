@@ -133,7 +133,6 @@ def BuildVendor(input_dir, info_dict, block_list=None):
   file containing it."""
   return CreateImage(input_dir, info_dict, "vendor", block_list=block_list)
 
-
 def CreateImage(input_dir, info_dict, what, block_list=None):
   print "creating " + what + ".img..."
 
