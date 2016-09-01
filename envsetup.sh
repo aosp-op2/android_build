@@ -590,6 +590,7 @@ function lunch()
     TARGET_PRODUCT=$product \
     TARGET_BUILD_VARIANT=$variant \
     build_build_var_cache
+
     if [ $? -ne 0 ]
     then
         echo
