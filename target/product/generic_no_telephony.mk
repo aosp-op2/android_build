@@ -24,6 +24,7 @@ PRODUCT_PACKAGES := \
     Gallery2 \
     Music \
     MusicFX \
+    Apollo \
     OneTimeInitializer \
     Provision \
     SystemUI \

@@ -35,6 +35,7 @@ PRODUCT_PACKAGES := \
 	LiveWallpapersPicker \
 	Mms \
 	Music \
+        Apollo \
 	OpenWnn \
 	Protips \
 	rild \
