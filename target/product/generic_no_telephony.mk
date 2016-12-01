@@ -25,6 +25,7 @@ PRODUCT_PACKAGES := \
     Music \
     MusicFX \
     Apollo \
+    SoundRecorder \
     OneTimeInitializer \
     Provision \
     SystemUI \
